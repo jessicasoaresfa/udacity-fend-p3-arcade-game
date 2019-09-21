@@ -51,7 +51,9 @@ Enemy.prototype.render = function() {
 
 let Player = function(x,y) {
     this.x = 200;
-    this.y = 370;
+    this.y = 372;
+    this.pace_width = 101;
+    this.pace_height = 83;
     this.sprite = 'images/char-boy.png';
 };
 
@@ -67,21 +69,38 @@ player.render = function() {
 
       // methods
 
-          // update the player's position
-              // checkCollisions
-                  // did the player collide?
-              // checkWin
-                  // did the player reach the water?
+// update the player's position
+// important note: our blocks have 101 pixels width and 83 pixels height
+// player's pace is set to 101px when moving left or right
+// player's pace is set to 83px when moving up and down
+
+player.handleInput = function(keypressed) {
+    if (keypressed == 'left') {
+        this.x -= this.pace_width;
+      } else if (keypressed == 'right') {
+        this.x += this.pace_width;
+      } else if (keypressed == 'up') {
+        this.y -= this.pace_height;
+      } else if (keypressed == 'down') {
+        this.y += this.pace_height;
+    }
+};
+
+
+// checkCollisions
+  // did the player collide?
+
+// checkWin
+  // did the player reach the water?
 
           // handle keyboard input
               // the player's x and y position is updated according to the keyboard handleInput
 
 // reset hero's position
 // player's position is reset to x and y original start value
-
 player.reset = function(x,y) {
-    this.x = 0;
-    this.y = 0;
+    this.x = 200;
+    this.y = 372;
 };
 
 // Place all enemy objects in an array called allEnemies
@@ -94,16 +113,16 @@ let allEnemies = [];
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
 
-// document.addEventListener('keyup', function(e) {
-//     var allowedKeys = {
-//         37: 'left',
-//         38: 'up',
-//         39: 'right',
-//         40: 'down'
-//     };
-//
-//     player.handleInput(allowedKeys[e.keyCode]);
-// });
+document.addEventListener('keyup', function(e) {
+    var allowedKeys = {
+        37: 'left',
+        38: 'up',
+        39: 'right',
+        40: 'down'
+    };
+
+    player.handleInput(allowedKeys[e.keyCode]);
+});
 
 ////////////////////////////////////////////////
 ////////////////// GAME OVER //////////////////
