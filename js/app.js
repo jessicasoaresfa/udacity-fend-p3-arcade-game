@@ -51,9 +51,11 @@ Enemy.prototype.render = function() {
 
 let Player = function(x,y) {
     this.x = 200;
-    this.y = 372;
+    this.y = 410;
     this.pace_width = 101;
     this.pace_height = 83;
+    this.limitRight = this.pace_width * 3;
+    this.limitTop = this.pace_height * 4;
     this.sprite = 'images/char-boy.png';
 };
 
@@ -74,18 +76,36 @@ player.render = function() {
 // player's pace is set to 101px when moving left or right
 // player's pace is set to 83px when moving up and down
 
-player.handleInput = function(keypressed) {
-    if (keypressed == 'left') {
-        this.x -= this.pace_width;
-      } else if (keypressed == 'right') {
-        this.x += this.pace_width;
-      } else if (keypressed == 'up') {
-        this.y -= this.pace_height;
-      } else if (keypressed == 'down') {
-        this.y += this.pace_height;
-    }
-};
+// player.handleInput = function(keypressed) {
+//     if (keypressed == 'left') {
+//         this.x -= this.pace_width;
+//       } else if (keypressed == 'right') {
+//         this.x += this.pace_width;
+//       } else if (keypressed == 'up') {
+//         this.y -= this.pace_height;
+//       } else if (keypressed == 'down') {
+//         this.y += this.pace_height;
+//     }
+// };
 
+player.handleInput = function(keypressed) {
+
+    if (keypressed == 'left') {
+          if (this.x > 0) { this.x -= this.pace_width; }
+        }
+
+          else if (keypressed == 'right') {
+          if (this.x < this.limitRight) { this.x += this.pace_width; }
+        }
+
+          else if (keypressed == 'up') {
+          if (this.y > 0 ){ this.y -= this.pace_height; }
+        }
+
+          else if (keypressed == 'down') {
+          if (this.y < this.limitTop ){ this.y += this.pace_height;  }
+        }
+};
 
 // checkCollisions
   // did the player collide?
@@ -99,8 +119,8 @@ player.handleInput = function(keypressed) {
 // reset hero's position
 // player's position is reset to x and y original start value
 player.reset = function(x,y) {
-    this.x = 200;
-    this.y = 372;
+  this.x = 200;
+  this.y = 415;
 };
 
 // Place all enemy objects in an array called allEnemies
