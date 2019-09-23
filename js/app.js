@@ -110,12 +110,14 @@ class Player {
 const player = new Player();
 const allEnemies = [];
 
-const enemyOne = new Enemy(-101, 50, 130);
+const enemyOne = new Enemy(-101, 50, (Math.floor(Math.random() * 200) + 100));
 allEnemies.push(enemyOne);
-const enemyTwo = new Enemy(-60, 143, 260);
+const enemyTwo = new Enemy(-60, 143, (Math.floor(Math.random() * 200) + 100));
 allEnemies.push(enemyTwo);
-const enemyThree = new Enemy(-205, 220, 200);
+const enemyThree = new Enemy(-205, 143, (Math.floor(Math.random() * 200) + 100));
 allEnemies.push(enemyThree);
+const enemyFour = new Enemy(-250, 220, (Math.floor(Math.random() * 200) + 100));
+allEnemies.push(enemyFour);
 
 
 // This listens for key presses and sends the keys to your
