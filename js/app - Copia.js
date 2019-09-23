@@ -5,41 +5,42 @@ let crashes = 0;
 ////////////////// ENEMY SETUP ////////////////
 //////////////////////////////////////////////
 
-class Enemy {
-  // setting up enemy objects: image, initial position,
-  // pace width, screen limit and initial speed.
-  constructor(x,y, speed) {
-    this.x = x;
-    this.y = y;
-    this.speed = speed;
+var Enemy = function(x,y) {
+    this.x = 0;
+    this.y = 50;
     this.pace_width = 101;
     this.pace_border = this.pace_width * 5;
     this.sprite = 'images/enemy-bug.png';
-  }
+};
 
+// METHODS
 // Update the enemy's position, required method for game
 // Parameter: dt, a time delta between ticks
 
-  update (dt) {
+Enemy.prototype.update = function(dt) {
+
     // You should multiply any movement by the dt parameter
     // which will ensure the game runs at the same speed for
 
     // if enemy has not reached the end of the board
-
     if(this.x < this.pace_border ) {
-      this.x += this.speed * dt;
+      this.x +=200 * dt;
     }
     else {
       // reset enemy position
       this.x = -this.pace_width;
     }
-  }
+};
 
-  // draw the enemy on the screen, required method for game
-  render () {
-      ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-    }
-}
+      // else
+        // reset start position
+
+//};
+
+// Draw the enemy on the screen, required method for game
+Enemy.prototype.render = function() {
+   ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+};
 
 ////////////////////////////////////////////////
 //////////////// PLAYER SETUP /////////////////
@@ -49,8 +50,7 @@ class Enemy {
 // This class requires an update(), render() and
 // a handleInput() method.
 
-class Player {
-  constructor(x,y) {
+var Player = function(x,y) {
     this.x = 200;
     this.y = 410;
     this.pace_width = 101;
@@ -58,13 +58,16 @@ class Player {
     this.limitRight = this.pace_width * 3;
     this.limitTop = this.pace_height * 4;
     this.sprite = 'images/char-boy.png';
-}
+};
 
-    // render player
-  render() {
-    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-}
+// update player
 
+// render player
+Player.prototype.render = function() {
+  ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+};
+
+      // methods
 
 // update the player's position
 // important note: our blocks have 101 pixels width and 83 pixels height
@@ -72,7 +75,7 @@ class Player {
 // player's pace is set to 83px when moving up and down
 
 
-  handleInput (keypressed) {
+Player.prototype.handleInput = function(keypressed) {
 
     if (keypressed == 'left') {
           if (this.x > 0) { this.x -= this.pace_width; }
@@ -89,8 +92,7 @@ class Player {
           else if (keypressed == 'down') {
           if (this.y < this.limitTop ){ this.y += this.pace_height;  }
         }
-}
-}
+};
 
 // checkCollisions
   // did the player collide?
@@ -107,16 +109,10 @@ class Player {
 
 // Place all enemy objects in an array called allEnemies
 // Place the Player object in a variable called player
-const player = new Player();
+let player = new Player();
+let enemy = new Enemy();
 const allEnemies = [];
-
-const enemyOne = new Enemy(-101, 50, 130);
-allEnemies.push(enemyOne);
-const enemyTwo = new Enemy(-60, 143, 260);
-allEnemies.push(enemyTwo);
-const enemyThree = new Enemy(-205, 220, 200);
-allEnemies.push(enemyThree);
-
+allEnemies.push(enemy);
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
