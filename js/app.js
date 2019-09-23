@@ -1,5 +1,6 @@
 let score = 0;
 let crashes = 0;
+let allEnemies = [];
 
 ////////////////////////////////////////////////
 ////////////////// ENEMY SETUP ////////////////
@@ -8,7 +9,8 @@ let crashes = 0;
 class Enemy {
   // setting up enemy objects: image, initial position,
   // pace width, screen limit and initial speed.
-  constructor(x,y, speed) {
+
+  constructor(x,y,speed) {
     this.x = x;
     this.y = y;
     this.speed = speed;
@@ -39,8 +41,12 @@ class Enemy {
   render () {
       ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
     }
-}
 
+//   checkCollisions() {
+//      if (player.x -200 <= this.x + 90 && player.y -410 <= this.y + 90) {
+//        console.log("Crash!");}
+//   }
+}
 ////////////////////////////////////////////////
 //////////////// PLAYER SETUP /////////////////
 //////////////////////////////////////////////
@@ -51,12 +57,12 @@ class Enemy {
 
 class Player {
   constructor(x,y) {
-    this.x = 200;
-    this.y = 410;
+    this.x = x;
+    this.y = y;
     this.pace_width = 101;
     this.pace_height = 83;
     this.limitRight = this.pace_width * 3;
-    this.limitTop = this.pace_height * 4;
+    this.limitBottom = this.pace_height * 4;
     this.sprite = 'images/char-boy.png';
 }
 
@@ -66,11 +72,9 @@ class Player {
 }
 
 
-// update the player's position
 // important note: our blocks have 101 pixels width and 83 pixels height
 // player's pace is set to 101px when moving left or right
 // player's pace is set to 83px when moving up and down
-
 
   handleInput (keypressed) {
 
@@ -87,37 +91,52 @@ class Player {
         }
 
           else if (keypressed == 'down') {
-          if (this.y < this.limitTop ){ this.y += this.pace_height;  }
+          if (this.y < this.limitBottom + 42 ){ this.y += this.pace_height;  }
         }
 }
+
+    update() {
+    // checkCollisions
+    for (let enemy of allEnemies) {
+      if (this.y - enemy.y === 15 && (enemy.x + enemy.pace_width > this.x + 20 && enemy.x + 20 < this.x + this.pace_width)) {
+        this.reset();
+        restartGame();
+        newCrash();
+        console.log(crashes);
+      } else {
+        // player reaches the top
+        // there is a new win
+        if (this.y === -10) {
+          newWin();
+          console.log(score);
+        }
+      }
+      }
+    }
+
+    reset() {
+      this.x = 200;
+      this.y = 405;
+    }
+
 }
-
-// checkCollisions
-  // did the player collide?
-
-// checkWin
-  // did the player reach the water?
-
-          // handle keyboard input
-              // the player's x and y position is updated according to the keyboard handleInput
-
 ////////////////////////////////////////////////
 ///////////// INSTANTIATE OBJECTS /////////////
 //////////////////////////////////////////////
 
-// Place all enemy objects in an array called allEnemies
-// Place the Player object in a variable called player
-const player = new Player();
-const allEnemies = [];
 
-const enemyOne = new Enemy(-101, 50, (Math.floor(Math.random() * 200) + 100));
+// Place the Player object in a variable called player
+const player = new Player(200,405);
+
+// Place all enemy objects in an array called allEnemies
+// Setup random speed for each bug
+// Javascript Math inspired by W3Schools reference
+const enemyOne = new Enemy(-101, 58, (Math.floor(Math.random() * 200) + 100));
 allEnemies.push(enemyOne);
-const enemyTwo = new Enemy(-60, 143, (Math.floor(Math.random() * 200) + 100));
+const enemyTwo = new Enemy(-101, 141, (Math.floor(Math.random() * 300) + 100));
 allEnemies.push(enemyTwo);
-const enemyThree = new Enemy(-205, 143, (Math.floor(Math.random() * 200) + 100));
+const enemyThree = new Enemy(-250, 224, (Math.floor(Math.random() * 200) + 100));
 allEnemies.push(enemyThree);
-const enemyFour = new Enemy(-250, 220, (Math.floor(Math.random() * 200) + 100));
-allEnemies.push(enemyFour);
 
 
 // This listens for key presses and sends the keys to your
@@ -141,28 +160,28 @@ document.addEventListener('keyup', function(e) {
 ////// TO DO : id score innerHTML setup
 ////// TO DO : new Enemies setup
 
-// function newWin() {
-//   player.reset();
-//   score += 1;
-//   document.getElementById('score').innerHTML = score;
-// }
-//
-// function restartGame() {
-//   player.reset();
-//     allEnemies = [];
-//
-//     // for each new enemy, create and push object into the array (newEnemy)
-//     allEnemies.push(
-//     new Enemy( XXXX ),
-//     new Enemy( XXXX ),
-//     new Enemy( XXXX ),
-//   );
-// }
-//  restartGame();
 
-// reset hero's position
-// player's position is reset to x and y original start value
-player.reset = function(x,y) {
-  this.x = 200;
-  this.y = 415;
-};
+function restartGame() {
+  // for each new enemy, create and push object into the array
+    allEnemies = [];
+    allEnemies.push(
+    new Enemy(-101, 58, (Math.floor(Math.random() * 200) + 100)),
+    new Enemy(-101, 141, (Math.floor(Math.random() * 300) + 100)),
+    new Enemy(-250, 224, (Math.floor(Math.random() * 200) + 100)),
+  );
+}
+
+function newWin() {
+  score +=1;
+  setTimeout (function() {
+    player.reset();
+  }, 500)
+  // document.getElementById('score').innerHTML = score;
+}
+
+function newCrash() {
+  crashes += 1;
+  // document.getElementById('crashes').innerHTML = crashes;
+}
+
+ restartGame();
