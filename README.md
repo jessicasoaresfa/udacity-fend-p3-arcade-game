@@ -3,8 +3,8 @@ This game is part of Udacity's  Front-End Web Developer Nanodegree program. The 
 
 ## Table of Contents
 
-- [How to run the game](#Howtorunthegame)
-- [How to play the game](#Howtoplaythegame)
+- [How to run the game](#how-to-run-the-game)
+- [How to play the game](#how-to-play-the-game) 
 
 ## How to run the game
 1.  Download this repository, extract the files and open the index.html file to run the game.
