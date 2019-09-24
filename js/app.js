@@ -1,5 +1,3 @@
-let score = 0;
-let crashes = 0;
 let allEnemies = [];
 
 ////////////////////////////////////////////////
@@ -101,14 +99,15 @@ class Player {
       if (this.y - enemy.y === 15 && (enemy.x + enemy.pace_width > this.x + 20 && enemy.x + 20 < this.x + this.pace_width)) {
         this.reset();
         restartGame();
-        newCrash();
         console.log(crashes);
+
       } else {
         // player reaches the top
         // there is a new win
-        if (this.y === -10) {
+        if (this.y === (-10)) {
+            setTimeout (function() {
+          }, 100)
           newWin();
-          console.log(score);
         }
       }
       }
@@ -157,10 +156,6 @@ document.addEventListener('keyup', function(e) {
 ////////////////// GAME OVER //////////////////
 //////////////////////////////////////////////
 
-////// TO DO : id score innerHTML setup
-////// TO DO : new Enemies setup
-
-
 function restartGame() {
   // for each new enemy, create and push object into the array
     allEnemies = [];
@@ -169,19 +164,21 @@ function restartGame() {
     new Enemy(-101, 141, (Math.floor(Math.random() * 300) + 100)),
     new Enemy(-250, 224, (Math.floor(Math.random() * 200) + 100)),
   );
+    player.reset();
+    closePopUp();
 }
 
 function newWin() {
-  score +=1;
-  setTimeout (function() {
-    player.reset();
-  }, 500)
-  // document.getElementById('score').innerHTML = score;
+    const popUp = document.querySelector('.popup_bg');
+    popUp.classList.remove('hide');
 }
 
-function newCrash() {
-  crashes += 1;
-  // document.getElementById('crashes').innerHTML = crashes;
+function closePopUp() {
+  const popUp = document.querySelector('.popup_bg');
+  popUp.classList.add('hide');
 }
 
- restartGame();
+document.querySelector('.popup_close').addEventListener('click', () => { restartGame() });
+document.querySelector('.popup_new').addEventListener('click', () => { restartGame() });
+
+restartGame();
