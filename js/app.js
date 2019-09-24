@@ -97,9 +97,8 @@ class Player {
     // checkCollisions
     for (let enemy of allEnemies) {
       if (this.y - enemy.y === 15 && (enemy.x + enemy.pace_width > this.x + 20 && enemy.x + 20 < this.x + this.pace_width)) {
-        this.reset();
+        player.reset();
         restartGame();
-        console.log(crashes);
 
       } else {
         // player reaches the top
