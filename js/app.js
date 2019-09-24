@@ -1,13 +1,26 @@
-let allEnemies = [];
+////////////////// ARCADE GAME PROJECT: Frogger Clone ////////////////
+/**
+ * @description: This game is part of Udacity's Front-End Web Developer Nanodegree program.
+ * The Arcade Game clone is inspired by the game Frogger.
+ * The mission is to lead the player to the water using the arrow keys avoiding the bugs.
+ */
 
 ////////////////////////////////////////////////
 ////////////////// ENEMY SETUP ////////////////
 //////////////////////////////////////////////
 
-class Enemy {
-  // setting up enemy objects: image, initial position,
-  // pace width, screen limit and initial speed.
+/**
+ * @description: all enemy objects in an array called allEnemies
+ */
 
+ let allEnemies = [];
+
+ /**
+  * @description: setup for the enemies the player must avoid
+  * setting up enemy objects: image, initial position, pace width, screen limit and initial speed.
+  */
+
+class Enemy {
   constructor(x,y,speed) {
     this.x = x;
     this.y = y;
@@ -17,14 +30,17 @@ class Enemy {
     this.sprite = 'images/enemy-bug.png';
   }
 
-// Update the enemy's position, required method for game
-// Parameter: dt, a time delta between ticks
+  /**
+   * @description: update the enemy's position, required method for game
+   * @param: dt, a time delta between ticks
+   */
 
   update (dt) {
-    // You should multiply any movement by the dt parameter
-    // which will ensure the game runs at the same speed for
-
-    // if enemy has not reached the end of the board
+    /**
+     * @description: You should multiply any movement by the dt parameter
+     * which will ensure the game runs at the same speed
+     * if enemy has not reached the end of the board
+     */
 
     if(this.x < this.pace_border ) {
       this.x += this.speed * dt;
@@ -35,18 +51,23 @@ class Enemy {
     }
   }
 
-  // draw the enemy on the screen, required method for game
+  /**
+   * @description: draw the enemy on the screen, required method for game
+   */
+
+  //
   render () {
       ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
     }
-
+}
 ////////////////////////////////////////////////
 //////////////// PLAYER SETUP /////////////////
 //////////////////////////////////////////////
 
-// Player class
-// This class requires an update(), render() and
-// a handleInput() method.
+  /**
+   * @description: Player class
+   * This class requires an update(), render() and a handleInput() method.
+   */
 
 class Player {
   constructor(x,y) {
@@ -58,16 +79,18 @@ class Player {
     this.limitBottom = this.pace_height * 4;
     this.sprite = 'images/char-boy.png';
 }
-
-    // render player
+  /**
+   * @description: render player
+   */
   render() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 }
 
-
-// important note: our blocks have 101 pixels width and 83 pixels height
-// player's pace is set to 101px when moving left or right
-// player's pace is set to 83px when moving up and down
+/**
+ * @description: important note: our blocks have 101 pixels width and 83 pixels height
+ * player's pace is set to 101px when moving left or right
+ * player's pace is set to 83px when moving up and down
+ */
 
   handleInput (keypressed) {
 
@@ -88,16 +111,19 @@ class Player {
         }
 }
 
+  /**
+   * @description: check for collision
+   * if player and bug collide, the player is reset and the game restarted
+   * else, if the player reaches the top without crashing, there is a new win
+   */
+   
     update() {
-    // checkCollisions
     for (let enemy of allEnemies) {
       if (this.y - enemy.y === 15 && (enemy.x + enemy.pace_width > this.x + 20 && enemy.x + 20 < this.x + this.pace_width)) {
         player.reset();
         restartGame();
 
       } else {
-        // player reaches the top
-        // there is a new win
         if (this.y === (-10)) {
             setTimeout (function() {
           }, 100)
@@ -117,13 +143,17 @@ class Player {
 ///////////// INSTANTIATE OBJECTS /////////////
 //////////////////////////////////////////////
 
+/**
+ * @description: Place the Player object in a variable called player
+ */
 
-// Place the Player object in a variable called player
 const player = new Player(200,405);
 
-// Place all enemy objects in an array called allEnemies
-// Setup random speed for each bug
-// Javascript Math inspired by W3Schools reference
+  /**
+   * @description: Setup random speed for each bug
+   * Credit: Javascript Math inspired by W3Schools reference
+   */
+
 const enemyOne = new Enemy(-101, 58, (Math.floor(Math.random() * 200) + 100));
 allEnemies.push(enemyOne);
 const enemyTwo = new Enemy(-101, 141, (Math.floor(Math.random() * 300) + 100));
@@ -131,9 +161,9 @@ allEnemies.push(enemyTwo);
 const enemyThree = new Enemy(-250, 224, (Math.floor(Math.random() * 200) + 100));
 allEnemies.push(enemyThree);
 
-
-// This listens for key presses and sends the keys to your
-// Player.handleInput() method. You don't need to modify this.
+  /**
+   * @description: This listens for key presses and sends the keys to the Player.handleInput() method
+   */
 
 document.addEventListener('keyup', function(e) {
     var allowedKeys = {
@@ -150,8 +180,14 @@ document.addEventListener('keyup', function(e) {
 ////////////////// GAME OVER //////////////////
 //////////////////////////////////////////////
 
+/**
+ * @description: Restart game.
+ * For each new enemy, create and push object into the array
+ * Player is reset
+ * PopUp, if open, is closed
+  */
+
 function restartGame() {
-  // for each new enemy, create and push object into the array
     allEnemies = [];
     allEnemies.push(
     new Enemy(-101, 58, (Math.floor(Math.random() * 200) + 100)),
@@ -162,17 +198,32 @@ function restartGame() {
     closePopUp();
 }
 
+/**
+ * @description: New win function
+ * a pop up is open in the screen
+  */
+
 function newWin() {
     const popUp = document.querySelector('.popup_bg');
     popUp.classList.remove('hide');
 }
+
+/**
+ * @description: Close pop up function
+  */
 
 function closePopUp() {
   const popUp = document.querySelector('.popup_bg');
   popUp.classList.add('hide');
 }
 
+/**
+ * @description: Pop up buttons setup
+  */
 document.querySelector('.popup_close').addEventListener('click', () => { restartGame() });
 document.querySelector('.popup_new').addEventListener('click', () => { restartGame() });
 
+  /**
+   * @description: Restart game function
+    */
 restartGame();
