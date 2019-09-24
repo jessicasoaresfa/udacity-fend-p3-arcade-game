@@ -40,11 +40,6 @@ class Enemy {
       ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
     }
 
-//   checkCollisions() {
-//      if (player.x -200 <= this.x + 90 && player.y -410 <= this.y + 90) {
-//        console.log("Crash!");}
-//   }
-}
 ////////////////////////////////////////////////
 //////////////// PLAYER SETUP /////////////////
 //////////////////////////////////////////////

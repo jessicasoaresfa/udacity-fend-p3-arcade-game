@@ -1,20 +1,15 @@
-# Classic Arcade Game Clone Project
+# Arcade Game Project: Frogger Clone
+This game is part of Udacity's  Front-End Web Developer Nanodegree program. The Arcade Game clone is inspired by the game _Frogger_. The mission is to lead the player to the water using the arrow keys. _Easy peasy_, right? But you must watch out for the ladybugs: if the hero and the enemies collide, you must start again.
 
 ## Table of Contents
 
-- [Instructions](#instructions)
-- [Contributing](#contributing)
+- [How to run the game](#Howtorunthegame)
+- [How to play the game](#Howtoplaythegame)
 
-## Instructions
+## How to run the game
+1.  Download this repository, extract the files and open the index.html file to run the game.
+2.  Or clone the repository `$ git clone https://github.com/jessicasoaresfa/udacity-fend-p3-arcade-game.git` and open the index.html file.
 
-Use this [rubric](https://review.udacity.com/#!/rubrics/15/view) for self-checking your submission.
+## How to play the game
 
-Make sure the functions you write are **object-oriented** - either class functions (like `Player` and `Enemy`) or class prototype functions such as `Enemy.prototype.checkCollisions`. Also make sure that the keyword `this` is used appropriately within your class and class prototype functions to refer to the object the function is called upon.
-
-Your **README.md** file should be updated with instructions on both how to 1. Run and 2. Play your arcade game.
-
-For detailed instructions on how to get started, check out this [guide](https://docs.google.com/document/d/1v01aScPjSWCCWQLIpFqvg3-vXLH2e8_SZQKC8jNO0Dc/pub?embedded=true).
-
-## Contributing
-
-This repository is the starter code for _all_ Udacity students. Therefore, we most likely will not accept pull requests.
+In this game you have a player and enemies (ladybugs). The goal of the player is to reach the water, without colliding into any one of the enemies. The player can move **left**, **right**, **up** and **down** using the **keyboard**. The enemies move in varying speeds on the paved block portion of the scene. Once a the player collides with an enemy, the game is reset and the player moves back to the start square. Once the player reaches the water the game is won.
